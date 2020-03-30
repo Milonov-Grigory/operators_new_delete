@@ -1,29 +1,41 @@
 #ifndef UNTITLED_MYALLOCATOR_H
 #define UNTITLED_MYALLOCATOR_H
-//#include <memory>
-#include <cstddef>
 
-//Обертка над вызовами new и delete (дефолтный аллокатор)
+#include <new>
+#include <stdexcept>
+
 template <class T>
 class myAllocator {
+
 public:
 
-    T* allocate(size_t n) const {
-        (T*)new T [n * sizeof(T)];
+    explicit myAllocator(std::size_t n) : _size(n) {};
+
+    T* allocate(std::size_t n) const {
+        if (n > _size) {
+            throw std::invalid_argument("Wrong value");
+        }
+        else {
+           return new T[n];
+        }
     }
 
-    void deallocate(T* p, size_t n) const {
+    void deallocate(T* p, std::size_t n) const {
         delete[] p;
     }
 
     template< typename... Args >
     void construct(T* p, const Args&... args) const {
-        return new(p) T(args...);
+        new(p) T(args...);
     }
 
     void destroy(T* p) const {
         p->~T();
     }
+
+private:
+
+    size_t _size;
 };
 
 #endif //UNTITLED_MYALLOCATOR_H

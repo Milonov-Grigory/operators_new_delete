@@ -1,9 +1,12 @@
 #ifndef UNTITLED_MYCLASS_H
 #define UNTITLED_MYCLASS_H
 
-#include <iostream>
+#include <memory>
+
 class myClass {
+
 public:
+
     /*
     * Запрашивается блок памяти, размер которого указывается в параметре (в байтах)
     * Возвращается указатель на выделенный блок, либо кидается исключение std::bad_alloc
@@ -63,7 +66,7 @@ public:
     * Создание собственной формы оператора new.
     */
     void* operator new(size_t size, const std::string &str);
-};
 
+};
 
 #endif //UNTITLED_MYCLASS_H
