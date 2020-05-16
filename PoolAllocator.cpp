@@ -5,8 +5,9 @@
 #include "PoolAllocator.h"
 #include "iostream"
 using namespace std;
-PoolAllocator::PoolAllocator(size_t chunksPerBlock): mChunksPerBlock(chunksPerBlock) {
-    blockBeg = allocateBlock(standardChunk);
+PoolAllocator::PoolAllocator(size_t chunksPerBlock)  {
+    mChunksPerBlock = chunksPerBlock;
+    blockBeg = allocateBlock(chunksPerBlock, standardChunk);
     currentFreeChunk = blockBeg;
     freeChunks = chunksPerBlock;
 }
@@ -46,10 +47,10 @@ void PoolAllocator::deallocate(void *ptr, size_t size) {
     }
 }
 
-PoolAllocator::Chunk *PoolAllocator::allocateBlock(size_t chunkSize) {
-    cout << "\nAllocating block (" << mChunksPerBlock << " chunks):\n\n";
+PoolAllocator::Chunk *PoolAllocator::allocateBlock(size_t chunksPerBlock, size_t chunkSize) {
+    //cout << "\nAllocating block (" << mChunksPerBlock << " chunks):\n\n";
 
-    size_t blockSize = mChunksPerBlock * chunkSize;//block size in bites
+    size_t blockSize = chunksPerBlock * chunkSize;//block size in bites
 
     // The first chunk of the new block.
     auto *blockBegin = reinterpret_cast<Chunk*>(malloc(blockSize));
@@ -58,7 +59,7 @@ PoolAllocator::Chunk *PoolAllocator::allocateBlock(size_t chunkSize) {
     // the chunks in this block:
     Chunk *chunk = blockBegin;
     //Block marking
-    for (size_t i = 0; i < mChunksPerBlock - 1; ++i) {
+    for (size_t i = 0; i < chunksPerBlock - 1; ++i) {
         //create a pointer on the new block of data
         chunk->next =
                 reinterpret_cast<Chunk*>(reinterpret_cast<char*>(chunk) + chunkSize);

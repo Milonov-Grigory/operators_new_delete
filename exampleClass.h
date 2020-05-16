@@ -25,4 +25,4 @@ public:
 	~ExampleClass() = default;
 
 };
-PoolAllocator ExampleClass::allocator{12};
+

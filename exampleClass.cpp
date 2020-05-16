@@ -38,3 +38,4 @@ void ExampleClass::operator delete[](void *ptr)  noexcept{
 void ExampleClass::operator delete[](void *ptr, const std::nothrow_t &)  noexcept{
     operator delete (ptr, std::nothrow);
 }
+PoolAllocator ExampleClass::allocator{12};

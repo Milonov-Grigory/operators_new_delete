@@ -34,7 +34,7 @@ private:
     //A number of free chunks
     size_t freeChunks = 0;
     //Allocates a larger block (pool) for chunks.
-    Chunk *allocateBlock(size_t chunkSize);
+    Chunk *allocateBlock(size_t chunksPerBlock,size_t chunkSize);
     //Standard size of chink
     size_t standardChunk = 64;
 };
